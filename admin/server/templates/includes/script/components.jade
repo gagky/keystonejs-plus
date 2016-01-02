@@ -3,13 +3,18 @@ script(src="#{adminPath}/js/lib/move/move-0.1.1.min.js")
 script(src="#{adminPath}/js/lib/jquery-placeholder-shim/jquery-placeholder-shim.js")
 if list.fieldTypes.wysiwyg
 	script(src="#{adminPath}/js/lib/tinymce/tinymce.min.js")
-	script(src="#{adminPath}/js/lib/medium-editor/medium-editor.min.js")
-if list.fieldTypes.code
-	script(src="#{adminPath}/js/lib/codemirror/codemirror-compressed.js")
-if cloudinary
+if cloudinary || list.fieldTypes.mediumeditor
+	script(src='#{adminPath}/js/lib/handlebars/handlebars.runtime.min.js')
+	script(src='#{adminPath}/js/lib/jquery-sortable/source/js/jquery-sortable-min.js')
 	script(src='#{adminPath}/js/lib/jqueryfileupload/vendor/jquery.ui.widget.js')
 	script(src='#{adminPath}/js/lib/jqueryfileupload/jquery.iframe-transport.js')
 	script(src='#{adminPath}/js/lib/jqueryfileupload/jquery.fileupload.js')
+if list.fieldTypes.mediumeditor
+	script(src="#{adminPath}/js/lib/medium-editor/medium-editor.min.js")
+	script(src="#{adminPath}/js/lib/medium-editor-insert-plugin/medium-editor-insert-plugin.min.js")
+if list.fieldTypes.code
+	script(src="#{adminPath}/js/lib/codemirror/codemirror-compressed.js")
+if cloudinary
 	script(src='#{adminPath}/js/lib/cloudinary/jquery.cloudinary.js')
 	| !{cloudinary_js_config}
 	script.

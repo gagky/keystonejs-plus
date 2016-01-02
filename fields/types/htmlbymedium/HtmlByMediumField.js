@@ -51,6 +51,10 @@ module.exports = Field.create({
 		        updateOnEmptySelection: false
 		    }
 		});
+		var self = this;
+		$("#"+this.state.id).mediumInsert({
+	        editor: self.editor
+	    });
 	},
 
 	componentDidUpdate (prevProps, prevState) {
