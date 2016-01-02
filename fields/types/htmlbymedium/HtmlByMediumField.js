@@ -2,6 +2,7 @@ import _ from 'underscore';
 import Field from '../Field';
 import React from 'react';
 import MediumEditor from 'medium-editor';
+//import tinymce from 'tinymce';
 import { FormInput } from 'elemental';
 
 /**
@@ -12,12 +13,12 @@ import { FormInput } from 'elemental';
 var lastId = 0;
 
 function getId() {
-	return 'keystone-htmlbymedium-' + lastId++;
+	return 'keystone-htmlmedium-' + lastId++;
 }
 
 module.exports = Field.create({
 
-	displayName: 'HtmlByMediumField',
+	displayName: 'HtmlMediumField',
 
 	getInitialState () {
 		return {
@@ -29,11 +30,27 @@ module.exports = Field.create({
 	initWysiwyg () {
 		if (!this.props.wysiwyg) return;
 
-		var self = this;
-		var opts = this.getOptions();
-
 		this._currentValue = this.props.value;
-		self.editor = new MediumEditor('#'+this.state.id);
+		this.editor = new MediumEditor("#"+this.state.id, {
+		    toolbar: {
+		        /* These are the default options for the toolbar,
+		           if nothing is passed this is what is used */
+		        allowMultiParagraphSelection: true,
+		        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 
+		        'orderedlist', 'unorderedlist', 'indent', 'outdent', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+		        diffLeft: 0,
+		        diffTop: -10,
+		        firstButtonClass: 'medium-editor-button-first',
+		        lastButtonClass: 'medium-editor-button-last',
+		        standardizeSelectionStart: false,
+		        static: false,
+		        relativeContainer: null,
+		        /* options which only apply when static is true */
+		        align: 'center',
+		        sticky: false,
+		        updateOnEmptySelection: false
+		    }
+		});
 	},
 
 	componentDidUpdate (prevProps, prevState) {
@@ -43,8 +60,14 @@ module.exports = Field.create({
 
 		if (_.isEqual(this.props.dependsOn, this.props.currentDependencies)
 			&& !_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
-			
+			/*var instance = tinymce.get(prevState.id);
+			if (instance) {
+				tinymce.EditorManager.execCommand('mceRemoveEditor', true, prevState.id);
 				this.initWysiwyg();
+			} else {
+				this.initWysiwyg();
+			}*/
+			this.initWysiwyg();
 		}
 	},
 
@@ -54,7 +77,7 @@ module.exports = Field.create({
 
 	componentWillReceiveProps (nextProps) {
 		if (this.editor && this._currentValue !== nextProps.value) {
-			this.editor.setContent(nextProps.value);
+			this.editor.innerHTML = nextProps.value;
 		}
 	},
 
@@ -66,8 +89,9 @@ module.exports = Field.create({
 
 	valueChanged  () {
 		var content;
+		console.log("valueChanged");
 		if (this.editor) {
-			content = this.editor.getContent();
+			content = this.editor.innerHTML;
 		} else if (this.refs.editor) {
 			content = this.refs.editor.getDOMNode().value;
 		} else {
