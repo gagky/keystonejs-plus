@@ -12,6 +12,7 @@ module.exports = {
 	embedly:          require('../../fields/types/embedly/EmbedlyFilter'),
 	// geopoint:         require('../../fields/types/geopoint/GeoPointFilter'),
 	html:             require('../../fields/types/html/HtmlFilter'),
+	htmlbymedium:     require('../../fields/types/htmlbymedium/HtmlByMediumFilter'),
 	key:              require('../../fields/types/key/KeyFilter'),
 	localfile:  	  require('../../fields/types/localfile/LocalFileFilter'),
 	localfiles:       require('../../fields/types/localfiles/LocalFilesFilter'),

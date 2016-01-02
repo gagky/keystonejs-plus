@@ -12,6 +12,7 @@ var Columns = {
 	embedly          : require('../../fields/types/embedly/EmbedlyColumn'),
 	geopoint         : require('../../fields/types/geopoint/GeoPointColumn'),
 	html             : require('../../fields/types/html/HtmlColumn'),
+	htmlbymedium     : require('../../fields/types/htmlbymedium/HtmlByMediumColumn'),
 	key              : require('../../fields/types/key/KeyColumn'),
 	localfile        : require('../../fields/types/localfile/LocalFileColumn'),
 	localfiles       : require('../../fields/types/localfiles/LocalFilesColumn'),
