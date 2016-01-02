@@ -110,7 +110,6 @@
   },
   "browserify-shim": {
     "tinymce": "global:tinymce",
-    "medium-editor": "global:medium-editor",
     "jquery": "global:$",
     "codemirror": "global:CodeMirror",
     "underscore": "global:_",
