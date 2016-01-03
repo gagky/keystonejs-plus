@@ -66,7 +66,9 @@ module.exports = function(req, res) {
 					list: req.list,
 					item: item,
 					relationships: relationships,
-					showRelationships: showRelationships
+					showRelationships: showRelationships,
+					cus_css: keystone.get('cus_css') ? keystone.get('cus_css').item : null,
+					cus_js: keystone.get('cus_js') ? keystone.get('cus_js').item : null
 				});
 
 			});

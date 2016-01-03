@@ -7,7 +7,9 @@ module.exports = function(req, res) {
 		page: 'home',
 		title: keystone.get('name') || 'Keystone',
 		orphanedLists: keystone.getOrphanedLists(),
-		brand: keystone.get('name')
+		brand: keystone.get('name'),
+		cus_css: keystone.get('cus_css') ? keystone.get('cus_css').home : null,
+		cus_js: keystone.get('cus_js') ? keystone.get('cus_js').home : null
 	});
 
 };

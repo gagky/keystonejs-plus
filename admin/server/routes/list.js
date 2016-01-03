@@ -15,7 +15,9 @@ module.exports = function(req, res) {
 			title: appName + ': ' + req.list.plural,
 			page: 'list',
 			list: req.list,
-			submitted: req.body || {}
+			submitted: req.body || {},
+			cus_css: keystone.get('cus_css') ? keystone.get('cus_css').list : null,
+			cus_js: keystone.get('cus_js') ? keystone.get('cus_js').list : null
 		}));
 	};
 
