@@ -1,8 +1,6 @@
 import _ from 'underscore';
 import Field from '../Field';
 import React from 'react';
-import MediumEditor from 'medium-editor';
-//import tinymce from 'tinymce';
 import { FormInput } from 'elemental';
 
 /**
@@ -33,11 +31,13 @@ module.exports = Field.create({
 		this._currentValue = this.props.value;
 		this.editor = new MediumEditor("#"+this.state.id, this.getMediumEditorOptions());
 		var self = this;
-		$(function () {
-			var opt_mediumInsert = self.getMediumInsertOptions();
-			opt_mediumInsert.editor = self.editor;
-			$("#"+self.state.id).mediumInsert(opt_mediumInsert);
-		});
+		if (this.props.mediumInsert){
+			$(function () {
+				var opt_mediumInsert = self.getMediumInsertOptions();
+				opt_mediumInsert.editor = self.editor;
+				$("#"+self.state.id).mediumInsert(opt_mediumInsert);
+			});
+		}
 	},
 
 	componentDidUpdate (prevProps, prevState) {
