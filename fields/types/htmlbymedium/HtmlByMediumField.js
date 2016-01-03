@@ -31,30 +31,13 @@ module.exports = Field.create({
 		if (!this.props.wysiwyg) return;
 
 		this._currentValue = this.props.value;
-		this.editor = new MediumEditor("#"+this.state.id, {
-		    toolbar: {
-		        /* These are the default options for the toolbar,
-		           if nothing is passed this is what is used */
-		        allowMultiParagraphSelection: true,
-		        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 
-		        'orderedlist', 'unorderedlist', 'indent', 'outdent', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
-		        diffLeft: 0,
-		        diffTop: -10,
-		        firstButtonClass: 'medium-editor-button-first',
-		        lastButtonClass: 'medium-editor-button-last',
-		        standardizeSelectionStart: false,
-		        static: false,
-		        relativeContainer: null,
-		        /* options which only apply when static is true */
-		        align: 'center',
-		        sticky: false,
-		        updateOnEmptySelection: false
-		    }
-		});
+		this.editor = new MediumEditor("#"+this.state.id, this.getMediumEditorOptions());
 		var self = this;
-		$("#"+this.state.id).mediumInsert({
-	        editor: self.editor
-	    });
+		$(function () {
+			var opt_mediumInsert = self.getMediumInsertOptions();
+			opt_mediumInsert.editor = self.editor;
+			$("#"+self.state.id).mediumInsert(opt_mediumInsert);
+		});
 	},
 
 	componentDidUpdate (prevProps, prevState) {
@@ -64,13 +47,6 @@ module.exports = Field.create({
 
 		if (_.isEqual(this.props.dependsOn, this.props.currentDependencies)
 			&& !_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
-			/*var instance = tinymce.get(prevState.id);
-			if (instance) {
-				tinymce.EditorManager.execCommand('mceRemoveEditor', true, prevState.id);
-				this.initWysiwyg();
-			} else {
-				this.initWysiwyg();
-			}*/
 			this.initWysiwyg();
 		}
 	},
@@ -108,80 +84,54 @@ module.exports = Field.create({
 			value: content
 		});
 	},
-
-	getOptions () {
-		var plugins = ['code', 'link'],
-			options = Object.assign(
+	
+	getMediumInsertOptions () {
+		var options = Object.assign(
 				{},
 				Keystone.wysiwyg.options,
 				this.props.wysiwyg
-			),
-			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link',
-			i;
-
-		if (options.enableImages) {
-			plugins.push('image');
-			toolbar += ' | image';
-		}
-
-		if (options.enableCloudinaryUploads || options.enableS3Uploads) {
-			plugins.push('uploadimage');
-			toolbar += options.enableImages ? ' uploadimage' : ' | uploadimage';
-		}
-
-		if (options.additionalButtons) {
-			var additionalButtons = options.additionalButtons.split(',');
-			for (i = 0; i < additionalButtons.length; i++) {
-				toolbar += (' | ' + additionalButtons[i]);
-			}
-		}
-		if (options.additionalPlugins) {
-			var additionalPlugins = options.additionalPlugins.split(',');
-			for (i = 0; i < additionalPlugins.length; i++) {
-				plugins.push(additionalPlugins[i]);
-			}
-		}
-		if (options.importcss) {
-			plugins.push('importcss');
-			var importcssOptions = {
-				content_css: options.importcss,
-				importcss_append: true,
-				importcss_merge_classes: true
-			};
-
-			Object.assign(options.additionalOptions, importcssOptions);
-		}
-
-		if (!options.overrideToolbar) {
-			toolbar += ' | code';
-		}
-
+			);
 		var opts = {
-			selector: '#' + this.state.id,
-			toolbar:  toolbar,
-			plugins:  plugins,
-			menubar:  options.menubar || false,
-			skin:     options.skin || 'keystone'
+			addons: {
+				images: {
+                    uploadScript: null,
+                    deleteScript: null,
+                    actions: null,
+                    fileUploadOptions: {}
+				}
+			}
+	        
 		};
-
-		if (this.shouldRenderField()) {
-			opts.uploadimage_form_url = options.enableS3Uploads ?
-				Keystone.adminPath + '/api/s3/upload' :
-				Keystone.adminPath + '/api/cloudinary/upload';
-		} else {
-			Object.assign(opts, {
-				mode: 'textareas',
-				readonly: true,
-				menubar: false,
-				toolbar: 'code',
-				statusbar: false
-			});
-		}
-
-		if (options.additionalOptions){
-			Object.assign(opts, options.additionalOptions);
-		}
-
+		opts.addons.images.fileUploadOptions.url = options.enableS3Uploads ?
+			Keystone.adminPath + '/api/s3/uploadjquery' :
+			Keystone.adminPath + '/api/cloudinary/uploadjquery';
+		
+		return opts;
+	},
+	
+	getMediumEditorOptions () {
+		var opts = {
+            buttonLabels: 'fontawesome',
+		    toolbar: {
+		        /* These are the default options for the toolbar,
+		           if nothing is passed this is what is used */
+		        allowMultiParagraphSelection: true,
+		        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 
+		        'orderedlist', 'unorderedlist', 'indent', 'outdent', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+		        diffLeft: 0,
+		        diffTop: -10,
+		        firstButtonClass: 'medium-editor-button-first',
+		        lastButtonClass: 'medium-editor-button-last',
+		        standardizeSelectionStart: false,
+		        static: false,
+		        relativeContainer: null,
+		        /* options which only apply when static is true */
+		        align: 'center',
+		        sticky: false,
+		        updateOnEmptySelection: false
+		    }
+		};
+		
 		return opts;
 	},
 
@@ -193,7 +143,9 @@ module.exports = Field.create({
 	renderField () {
 		var className = this.state.isFocused ? 'is-focused' : '';
 		var style = {
-			height: this.props.height
+			height: '1%',
+			overflow: 'hidden',
+			minHeight: this.props.height
 		};
 		return (
 			<div className={className}>
