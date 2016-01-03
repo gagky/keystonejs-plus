@@ -17,7 +17,7 @@ module.exports = {
 					if (result.error) {
 						res.send({ error: { message: result.error.message } });
 					} else {
-						res.send({ files: [{ url: result.url }] });
+						res.send({ files: [{ url: result.url.replace("http://", "//") }] });
 					}
 				};
 
