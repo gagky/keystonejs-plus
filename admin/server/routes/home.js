@@ -8,8 +8,8 @@ module.exports = function(req, res) {
 		title: keystone.get('name') || 'Keystone',
 		orphanedLists: keystone.getOrphanedLists(),
 		brand: keystone.get('name'),
-		cus_css: keystone.get('cus_css') ? keystone.get('cus_css').home : null,
-		cus_js: keystone.get('cus_js') ? keystone.get('cus_js').home : null
+		admin_css: keystone.get('admin css') ? keystone.get('admin css') : null,
+		admin_js: keystone.get('admin js') ? keystone.get('admin js') : null
 	});
 
 };

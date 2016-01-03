@@ -16,8 +16,8 @@ module.exports = function(req, res) {
 			page: 'list',
 			list: req.list,
 			submitted: req.body || {},
-			cus_css: keystone.get('cus_css') ? keystone.get('cus_css').list : null,
-			cus_js: keystone.get('cus_js') ? keystone.get('cus_js').list : null
+			admin_css: keystone.get('admin css') ? keystone.get('admin css') : null,
+			admin_js: keystone.get('admin js') ? keystone.get('admin js') : null
 		}));
 	};
 
