@@ -31,7 +31,7 @@ module.exports = Field.create({
 		this._currentValue = this.props.value;
 		this.editor = new MediumEditor("#"+this.state.id, this.getMediumEditorOptions());
 		var self = this;
-		if (this.props.mediumInsert){
+		if (this.props.extra == 'mediumInsert'){
 			$(function () {
 				var opt_mediumInsert = self.getMediumInsertOptions();
 				opt_mediumInsert.editor = self.editor;
