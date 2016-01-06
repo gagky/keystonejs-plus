@@ -22,14 +22,13 @@ keystone.set('admin nav', function(nav, user){
 Article.add({
 	__footers: { type: Types.TextArray, hidden: true }
 });
-
 Article.schema.post('init', function (doc) {
     this.__footers = [JSON.stringify({
-    	ui: "Button",
-    	key: "edit-in-medium",
-    	cls: "success",
-    	href: "/edit/article/" + this.slug,
-    	text: "Edit content in Medium now!"
+    	ui: 'Button',
+    	key: 'edit-in-medium',
+    	cls: 'success',
+    	href: '/edit/article/' + this.slug,
+    	text: 'Edit content in Medium now!'
     })];
 });
     ```
