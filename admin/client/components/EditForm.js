@@ -174,6 +174,9 @@ var EditForm = React.createClass({
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
+		if (keystone.get('admin item footer')){
+			keystone.get('admin item footer')(buttons, this.props.list);
+		}
 		if (!this.props.list.nodelete) {
 			buttons.push(
 				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
