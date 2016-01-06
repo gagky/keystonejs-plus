@@ -169,14 +169,28 @@ var EditForm = React.createClass({
 		var buttons = [
 			<Button key="save" type="primary" submit>Save</Button>
 		];
+		console.log(this)
+		console.log(this)
+		if (this.props.data.fields.__footers){
+			console.log( typeof this.props.data.fields.__footers);
+			var style = {
+				marginLeft: 10
+			}
+			this.props.data.fields.__footers.forEach(function(__footer, index, footers){
+				var footer = JSON.parse(__footer);
+				console.log(footer);
+				buttons.push(
+					<Button key={footer.key} type={footer.cls} href={footer.href} style={style}>
+						<ResponsiveText hiddenXS={footer.text} visibleXS={footer.href} />
+					</Button>
+				);
+			});
+		}
 		buttons.push(
 			<Button key="reset" onClick={this.confirmReset} type="link-cancel">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
-		if (keystone.get('admin item footer')){
-			keystone.get('admin item footer')(buttons, this.props.list);
-		}
 		if (!this.props.list.nodelete) {
 			buttons.push(
 				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
