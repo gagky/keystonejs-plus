@@ -8,7 +8,7 @@ module.exports = function(req, res) {
 		title: keystone.get('name') || 'Keystone',
 		orphanedLists: keystone.getOrphanedLists(),
 		brand: keystone.get('name'),
-		admin_css: keystone.get('admin css') ? keystone.get('admin css') : null,
+		admin_css: keystone.get('admin css') ? keystone.get('admin css')(req) : null,
 		admin_js: keystone.get('admin js') ? keystone.get('admin js') : null
 	});
 
