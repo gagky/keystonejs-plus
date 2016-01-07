@@ -9,7 +9,7 @@ module.exports = function(req, res) {
 		orphanedLists: keystone.getOrphanedLists(),
 		brand: keystone.get('name'),
 		admin_css: keystone.get('admin css') ? keystone.get('admin css')(req) : null,
-		admin_js: keystone.get('admin js') ? keystone.get('admin js') : null
+		admin_js: keystone.get('admin js') ? keystone.get('admin js')(req) : null
 	});
 
 };
