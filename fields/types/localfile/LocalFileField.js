@@ -102,11 +102,23 @@ module.exports = Field.create({
 		var values = null;
 
 		if (this.hasFile() && !this.state.removeExisting) {
-			values = (
-				<div className="file-values">
-					<FormInput noedit>{this.getFilename()}</FormInput>
-				</div>
-			);
+			if (this.isImage(this.getFileURL())){
+				var styles = {
+					maxWidth: 300
+				};
+				values = (
+					<div className="file-values">
+						<img src={this.getFileURL()} style={styles} />
+					</div>
+				);
+			}
+			else{
+				values = (
+					<div className="file-values">
+						<FormInput noedit>{this.getFilename()}</FormInput>
+					</div>
+				);	
+			}
 		}
 
 		return (
@@ -115,6 +127,15 @@ module.exports = Field.create({
 				{add}
 			</div>
 		);
+	},
+	
+	isImage(url) {
+		if (url){
+			return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);	
+		}
+		else{
+			return false;
+		}
 	},
 
 	renderAlert () {

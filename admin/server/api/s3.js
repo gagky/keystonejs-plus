@@ -5,10 +5,6 @@ var Types = keystone.Field.Types;
 module.exports = {
 
 	uploadjquery: function(req, res) {
-		if (!keystone.security.csrf.validate(req, req.body.authenticity_token)) {
-			return res.status(403).send({ error: { message: 'invalid csrf' } });
-		}
-
 		req.files.file = req.files['files[]'];
 		if(req.files && req.files.file){
 
@@ -31,7 +27,7 @@ module.exports = {
 						if (s3Response.statusCode !== 200) {
 							return res.send({ error: { message:'Amazon returned Http Code: ' + s3Response.statusCode } });
 						} else {
-							return res.send({ files: [{ url: '//s3.amazonaws.com/' + s3Config.bucket + '/' + file.name }] });
+							return res.send({ files: [{ url: '//' + s3Config.bucket + '.s3.amazonaws.com/' + file.name }] });
 						}
 					}
 				};
@@ -73,7 +69,7 @@ module.exports = {
 						if (s3Response.statusCode !== 200) {
 							return res.send({ error: { message:'Amazon returned Http Code: ' + s3Response.statusCode } });
 						} else {
-							return res.send({ image: { url: 'https://s3.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
+							return res.send({ files: [{ url: 'https://' + s3Config.bucket + '.s3.amazonaws.com/' + file.name }] });
 						}
 					}
 				};
