@@ -131,7 +131,7 @@ module.exports = Field.create({
 	
 	isImage(url) {
 		if (url){
-			return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);	
+			return(url.match(/\.(jpeg|jpg|gif|png)$/i) != null);	
 		}
 		else{
 			return false;

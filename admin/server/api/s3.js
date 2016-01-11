@@ -69,7 +69,7 @@ module.exports = {
 						if (s3Response.statusCode !== 200) {
 							return res.send({ error: { message:'Amazon returned Http Code: ' + s3Response.statusCode } });
 						} else {
-							return res.send({ files: [{ url: 'https://' + s3Config.bucket + '.s3.amazonaws.com/' + file.name }] });
+							return res.send({ image: { url: '//' + s3Config.bucket + '.s3.amazonaws.com/' + file.name } });
 						}
 					}
 				};
