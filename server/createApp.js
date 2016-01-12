@@ -3,13 +3,15 @@ var favicon = require('serve-favicon');
 var methodOverride = require('method-override');
 var morgan = require('morgan');
 
+var createComponentRouter = require('./createComponentRouter');
+
 module.exports = function createApp (keystone, express) {
 
 	if (!keystone.app) {
 		if (!express) {
 			express = require('express');
 		}
-		keystone.app = new express();
+		keystone.app = express();
 	}
 
 	var app = keystone.app;
@@ -49,6 +51,7 @@ module.exports = function createApp (keystone, express) {
 
 	require('./bindLessMiddleware')(keystone, app);
 	require('./bindSassMiddleware')(keystone, app);
+	require('./bindStylusMiddleware')(keystone, app);
 	require('./bindStaticMiddleware')(keystone, app);
 	require('./bindSessionMiddleware')(keystone, app);
 
@@ -56,6 +59,17 @@ module.exports = function createApp (keystone, express) {
 	if (keystone.get('logger')) {
 		app.use(morgan(keystone.get('logger'), keystone.get('logger options')));
 	}
+
+	// If the user wants to define their own middleware for logging,
+	// they should be able to
+	if (keystone.get('logging middleware')) {
+		app.use(keystone.get('logging middleware'));
+	}
+
+	// We should also allow custom logging middleware to exist in the normal middleware flow
+	app.use(function(req, res, next) {
+		keystone.callHook('pre:logger', req, res, next);
+	});
 
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Dynamic Router
@@ -87,10 +101,16 @@ module.exports = function createApp (keystone, express) {
 		keystone.callHook('pre:routes', req, res, next);
 	});
 
+	// Configure React routes
+	if (keystone.get('react routes')) {
+		app.use('/', createComponentRouter(keystone.get('react routes')));
+	}
+
 	// Configure application routes
 	if (typeof keystone.get('routes') === 'function') {
 		keystone.get('routes')(app);
 	}
+
 
 	require('./bindRedirectsHandler')(keystone, app);
 
