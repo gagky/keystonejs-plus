@@ -4,7 +4,7 @@
 
 var fs = require('fs-extra');
 var path = require('path');
-var _ = require('underscore');
+var _ = require('lodash');
 var moment = require('moment');
 var keystone = require('../../../');
 var util = require('util');
@@ -29,8 +29,8 @@ function localfiles (list, path, options) {
 
 	// TODO: implement initial form, usage disabled for now
 	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n' +
-			'localfiles fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'localfiles fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
 	}
 
 	if (options.overwrite !== false) {
@@ -41,8 +41,8 @@ function localfiles (list, path, options) {
 
 	// validate destination dir
 	if (!options.dest) {
-		throw new Error('Invalid Configuration\n\n' +
-			'localfiles fields (' + list.key + '.' + path + ') require the "dest" option to be set.');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'localfiles fields (' + list.key + '.' + path + ') require the "dest" option to be set.');
 	}
 
 	// Allow hook into before and after
@@ -183,7 +183,7 @@ localfiles.prototype.addToSchema = function () {
 		},
 	};
 
-	_.each(schemaMethods, function (fn, key) {
+	_.forEach(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
@@ -255,7 +255,7 @@ localfiles.prototype.isModified = function (item) {
 /**
  * Validates that a value for this field has been provided in a data object
  *
- * @api public
+ * Deprecated
  */
 
 localfiles.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
@@ -297,7 +297,7 @@ localfiles.prototype.uploadFiles = function (item, files, update, callback) {
 		var filename = prefix + file.name;
 		var filetype = file.mimetype || file.type;
 
-		if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
+		if (field.options.allowedTypes && !_.includes(field.options.allowedTypes, filetype)) {
 			return processedFile(new Error('Unsupported File Type: ' + filetype));
 		}
 

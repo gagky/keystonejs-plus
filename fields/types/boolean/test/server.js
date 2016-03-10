@@ -100,6 +100,9 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	// TODO: these should be updated to test the new validateInput() and
+	// validateRequiredInput() methods
+
 	it('should always validate when not required', function () {
 		demand(List.fields.bool.inputIsValid({ bool: 'true' }, false)).be(true);
 		demand(List.fields.bool.inputIsValid({ bool: true }, false)).be(true);
@@ -116,5 +119,68 @@ exports.testFieldType = function (List) {
 		demand(List.fields.bool.inputIsValid({ bool: false }, true)).be(false);
 		demand(List.fields.bool.inputIsValid({ bool: '' }, true)).be(false);
 		demand(List.fields.bool.inputIsValid({ bool: undefined }, true)).be(false);
+	});
+
+	it('should validate boolean input', function (done) {
+		List.fields.bool.validateInput({ bool: true }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate boolean input', function (done) {
+		List.fields.bool.validateInput({ bool: false }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate undefined input', function (done) {
+		List.fields.bool.validateInput({}, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate any string input', function (done) {
+		List.fields.bool.validateInput({ bool: 'abc' }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate required input === true', function (done) {
+		List.fields.bool.validateRequiredInput(testItem, { bool: true }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate required input with truthy string', function (done) {
+		List.fields.bool.validateRequiredInput(testItem, { bool: 'abc' }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should invalidate required input === ""', function (done) {
+		List.fields.bool.validateRequiredInput(testItem, { bool: '' }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate required input === "false"', function (done) {
+		List.fields.bool.validateRequiredInput(testItem, { bool: 'false' }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate required input === false', function (done) {
+		List.fields.bool.validateRequiredInput(testItem, { bool: false }, function (result) {
+			demand(result).be(false);
+			done();
+		});
 	});
 };

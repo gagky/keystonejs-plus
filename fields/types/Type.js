@@ -1,7 +1,8 @@
 /*!
  * Module dependencies.
  */
-var _ = require('underscore');
+var _ = require('lodash');
+var assign = require('object-assign');
 var di = require('asyncdi');
 var marked = require('marked');
 var Path = require('../../lib/path');
@@ -53,16 +54,16 @@ function Field (list, path, options) {
 	this.list.automap(this);
 
 	// Warn on required fields that aren't initial
-	if (this.options.required &&
-        this.options.initial === undefined &&
-        this.options.default === undefined &&
-        !this.options.value &&
-        !this.list.get('nocreate') &&
-        this.path !== this.list.mappings.name
+	if (this.options.required
+		&& this.options.initial === undefined
+		&& this.options.default === undefined
+		&& !this.options.value
+		&& !this.list.get('nocreate')
+		&& this.path !== this.list.mappings.name
 	) {
-		console.error('\nError: Invalid Configuration\n\n' +
-			'Field (' + list.key + '.' + path + ') is required but not initial, and has no default or generated value.\n' +
-			'Please provide a default, remove the required setting, or set initial: false to override this error.\n');
+		console.error('\nError: Invalid Configuration\n\n'
+		+ 'Field (' + list.key + '.' + path + ') is required but not initial, and has no default or generated value.\n'
+		+ 'Please provide a default, remove the required setting, or set initial: false to override this error.\n');
 		process.exit(1);
 	}
 
@@ -112,7 +113,7 @@ Field.prototype.getOptions = function () {
 			}
 		}, this);
 		if (this.getProperties) {
-			Object.assign(this.__options, this.getProperties());
+			assign(this.__options, this.getProperties());
 		}
 		this.__options.hasFilterMethod = this.addFilterToQuery ? true : false;
 		this.__options.defaultValue = this.getDefaultValue();
@@ -177,7 +178,7 @@ Field.prototype.getPreSaveWatcher = function () {
 		} else if (_.isObject(this.options.watch)) {
 			applyValue = function (item) {
 				var pass = false;
-				_.each(field.options.watch, function (value, path) {
+				_.forEach(field.options.watch, function (value, path) {
 					if (item.isModified(path) && item.get(path) === value) pass = true;
 				});
 				return pass;
@@ -186,14 +187,14 @@ Field.prototype.getPreSaveWatcher = function () {
 	}
 
 	if (!applyValue) {
-		console.error('\nError: Invalid Configuration\n\n' +
-			'Invalid watch value (' + this.options.watch + ') provided for ' + this.list.key + '.' + this.path + ' (' + this.type + ')');
+		console.error('\nError: Invalid Configuration\n\n'
+		+ 'Invalid watch value (' + this.options.watch + ') provided for ' + this.list.key + '.' + this.path + ' (' + this.type + ')');
 		process.exit(1);
 	}
 
 	if (!_.isFunction(this.options.value)) {
-		console.error('\nError: Invalid Configuration\n\n' +
-			'Watch set with no value method provided for ' + this.list.key + '.' + this.path + ' (' + this.type + ')');
+		console.error('\nError: Invalid Configuration\n\n'
+		+ 'Watch set with no value method provided for ' + this.list.key + '.' + this.path + ' (' + this.type + ')');
 		process.exit(1);
 	}
 
@@ -203,8 +204,8 @@ Field.prototype.getPreSaveWatcher = function () {
 		}
 		di(field.options.value).call(this, function (err, val) {
 			if (err) {
-				console.error('\nError: ' +
-				'Watch set with value method for ' + field.list.key + '.' + field.path + ' (' + field.type + ') throws error:' + err);
+				console.error('\nError: '
+				+ 'Watch set with value method for ' + field.list.key + '.' + field.path + ' (' + field.type + ') throws error:' + err);
 			} else {
 				this.set(field.path, val);
 			}
@@ -232,8 +233,6 @@ Object.defineProperty(Field.prototype, 'dependsOn', { get: function () { return 
 /**
  * Default method to register the field on the List's Mongoose Schema.
  * Overridden by some fieldType Classes
- *
- * @api public
  */
 Field.prototype.addToSchema = function () {
 	var ops = (this._nativeType) ? _.defaults({ type: this._nativeType }, this.options) : this.options;
@@ -241,10 +240,13 @@ Field.prototype.addToSchema = function () {
 	this.bindUnderscoreMethods();
 };
 
+/**
+ * Binds the methods specified by the _underscoreMethods property
+ * Must be called by the field type's `addToSchema` method
+ * Always includes the `update` method
+ */
 Field.prototype.bindUnderscoreMethods = function (methods) {
 	var field = this;
-	// automatically bind underscore methods specified by the _underscoreMethods property
-	// always include the 'update' method
 	(this._underscoreMethods || []).concat({ fn: 'updateItem', as: 'update' }, (methods || [])).forEach(function (method) {
 		if (typeof method === 'string') {
 			method = { fn: method, as: method };
@@ -262,8 +264,6 @@ Field.prototype.bindUnderscoreMethods = function (methods) {
 /**
  * Adds a method to the underscoreMethods collection on the field's list,
  * with a path prefix to match this field's path and bound to the document
- *
- * @api public
  */
 Field.prototype.underscoreMethod = function (path, fn) {
 	this.list.underscoreMethod(this.path + '.' + path, function () {
@@ -292,20 +292,32 @@ Field.prototype.isModified = function (item) {
 };
 
 /**
- * Validates that a value for this field has been provided in a data object
+ * Checks whether a provided value for the field is in a valid format
  * Overridden by some fieldType Classes
  *
  * @api public
  */
-Field.prototype.validateInput = function (data, required, item, callback) {
-	process.nextTick(callback(null, this.inputIsValid()));
+Field.prototype.validateInput = function (data, callback) {
+	utils.defer(callback, this.inputIsValid(data));
+};
+
+/**
+ * Validates that a value for this field has been provided in a data object,
+ * taking into account existing data in an item
+ * Overridden by some fieldType Classes
+ *
+ * @api public
+ */
+Field.prototype.validateRequiredInput = function (item, data, callback) {
+	utils.defer(callback, this.inputIsValid(data, true, item));
 };
 
 /**
  * Validates that a value for this field has been provided in a data object
  * Overridden by some fieldType Classes
  *
- * Not a reliable public API; use inputIsValid, which is async, instead
+ * Not a reliable public API; use inputIsValid, which is async, instead.
+ * This method has been deprecated.
  */
 Field.prototype.inputIsValid = function (data, required, item) {
 	if (!required) return true;
@@ -338,6 +350,6 @@ Field.prototype.updateItem = function (item, data, callback) {
  *
  * @api public
  */
-Field.prototype.getValueFromData = function (data) {
-	return this.path in data ? data[this.path] : this._path.get(data);
+Field.prototype.getValueFromData = function (data, subpath) {
+	return this._path.get(data, subpath);
 };
