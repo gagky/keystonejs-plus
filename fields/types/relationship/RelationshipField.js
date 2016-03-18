@@ -102,9 +102,10 @@ module.exports = Field.create({
 			loading: true,
 			value: null,
 		});
+		if (!this.props.limit) this.props.limit = 100;
 		async.map(values, (value, done) => {
 			xhr({
-				url: Keystone.adminPath + '/api/' + this.props.refList.path + '/' + value + '?basic',
+				url: Keystone.adminPath + '/api/' + this.props.refList.path + '/' + value + '?basic&limit=' + this.props.limit,
 				responseType: 'json',
 			}, (err, resp, data) => {
 				if (err || !data) return done(err);
@@ -126,8 +127,9 @@ module.exports = Field.create({
 		// NOTE: this seems like the wrong way to add options to the Select
 		this.loadOptionsCallback = callback;
 		let filters = this.buildFilters();
+		if (!this.props.limit) this.props.limit = 100;
 		xhr({
-			url: Keystone.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input + '&' + filters,
+			url: Keystone.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input + '&' + filters + '&limit=' + this.props.limit,
 			responseType: 'json',
 		}, (err, resp, data) => {
 			if (err) {

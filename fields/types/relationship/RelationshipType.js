@@ -16,7 +16,7 @@ function relationship (list, path, options) {
 	this._defaultSize = 'full';
 	this._nativeType = keystone.mongoose.Schema.Types.ObjectId;
 	this._underscoreMethods = ['format'];
-	this._properties = ['isValid', 'many', 'filters', 'createInline'];
+	this._properties = ['isValid', 'many', 'filters', 'createInline', 'limit'];
 	relationship.super_.call(this, list, path, options);
 }
 util.inherits(relationship, FieldType);
