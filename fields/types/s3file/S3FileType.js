@@ -337,7 +337,7 @@ s3file.prototype.uploadFile = function (item, file, update, callback) {
 		update = false;
 	}
 
-	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
+	if (field.options.allowedTypes && !_.includes(field.options.allowedTypes, filetype)) {
 		return callback(new Error('Unsupported File Type: ' + filetype));
 	}
 
