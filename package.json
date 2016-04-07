@@ -41,7 +41,7 @@
     "errorhandler": "1.4.3",
     "express": "4.13.4",
     "express-request-language": "1.1.4",
-    "express-session": "1.13.0",
+    "express-session": "git+ssh://git@gitlab.zensis.com:56789/vincent/keystone-express-session.git",
     "expression-match": "0.0.16",
     "fs-extra": "0.26.5",
     "grappling-hook": "3.0.0",
