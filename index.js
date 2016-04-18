@@ -5,6 +5,12 @@ var grappling = require('grappling-hook');
 var path = require('path');
 var utils = require('keystone-utils');
 
+
+var session = require('express-session');
+if (!session){
+	console.log('installed express-session@1.13.0 or express-session-plus#stable?');
+}
+
 /**
  * Don't use process.cwd() as it breaks module encapsulation
  * Instead, let's use module.parent if it's present, or the module itself if there is no parent (probably testing keystone directly if that's the case)
