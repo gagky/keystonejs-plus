@@ -8,7 +8,7 @@ var utils = require('keystone-utils');
 
 var session = require('express-session');
 if (!session){
-	console.log('installed express-session@1.13.0 or express-session-plus#stable?');
+	console.log('installed express-session@1.13.0 or keystone-express-session#stable?');
 }
 
 /**
