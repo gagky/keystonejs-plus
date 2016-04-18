@@ -10,7 +10,7 @@ module.exports = {
 	datetime: require('../../fields/types/datetime/DatetimeFilter'),
 	email: require('../../fields/types/email/EmailFilter'),
 	embedly: require('../../fields/types/embedly/EmbedlyFilter'),
-	// geopoint: require('../../fields/types/geopoint/GeoPointFilter'),
+	geopoint: require('../../fields/types/geopoint/GeoPointFilter'),
 	html: require('../../fields/types/html/HtmlFilter'),
 	htmlbymedium: require('../../fields/types/htmlbymedium/HtmlByMediumFilter'),
 	key: require('../../fields/types/key/KeyFilter'),
