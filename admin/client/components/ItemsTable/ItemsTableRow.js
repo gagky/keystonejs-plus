@@ -21,6 +21,8 @@ const ItemsRow = React.createClass({
 		connectDragPreview: React.PropTypes.func, // eslint-disable-line react/sort-prop-types
 	},
 	renderRow (item) {
+		console.log('ItemsTableRow.js');
+		console.log(item);
 		const itemId = item.id;
 		const rowClassname = classnames({
 			'ItemList__row--dragging': this.props.isDragging,
@@ -50,7 +52,7 @@ const ItemsRow = React.createClass({
 			));
 		}
 
-		var addRow = (<tr key={'i' + item.id} onClick={this.props.manageMode ? (e) => this.props.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>);
+		var addRow = (<tr id={item.id} key={'i' + item.id} onClick={this.props.manageMode ? (e) => this.props.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>);
 
 		if (this.props.list.sortable) {
 			return (

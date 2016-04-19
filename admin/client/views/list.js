@@ -155,13 +155,23 @@ const ListView = React.createClass({
 		}
 		return (
 			<InputGroup.Section className="ListHeader__create">
-				<Button {...props} title={'Create ' + this.state.list.singular}>
+				<Button {...props} title={'Create ' + this.state.list.singular} id='createBtn'>
 					<span className="ListHeader__create__icon octicon octicon-plus" />
 					<span className="ListHeader__create__label">
-						Create
+						{this.state.list.singular}
 					</span>
 					<span className="ListHeader__create__label--lg">
 						Create {this.state.list.singular}
+					</span>
+				</Button>
+				
+				<Button {...props} title={'Show all ' + this.state.list.plural} id='showAllBtn'>
+					<span className="ListHeader__show__icon octicon octicon-plus" />
+					<span className="ListHeader__show__label">
+						Show all
+					</span>
+					<span className="ListHeader__show__label--lg">
+						Show all {this.state.list.plural}
 					</span>
 				</Button>
 			</InputGroup.Section>
