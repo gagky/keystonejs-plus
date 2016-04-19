@@ -164,16 +164,13 @@ const ListView = React.createClass({
 						Create {this.state.list.singular}
 					</span>
 				</Button>
-				
-				<Button {...props} title={'Show all ' + this.state.list.plural} id='showAllBtn'>
-					<span className="ListHeader__show__icon octicon octicon-plus" />
-					<span className="ListHeader__show__label">
-						Show all
-					</span>
-					<span className="ListHeader__show__label--lg">
-						Show all {this.state.list.plural}
-					</span>
-				</Button>
+			</InputGroup.Section>
+		);
+	},
+	renderListButton () {
+		var props = { type: 'success' };
+		return (
+			<InputGroup.Section className="ListHeader__list">
 			</InputGroup.Section>
 		);
 	},
@@ -299,6 +296,7 @@ const ListView = React.createClass({
 							</Button>
 						</InputGroup.Section>
 						{this.renderCreateButton()}
+						{this.renderListButton()}
 					</InputGroup>
 					<ListFilters />
 					<div style={{ height: 34, marginBottom: '2em' }}>

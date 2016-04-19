@@ -6,6 +6,7 @@ import CurrentListStore from '../../stores/CurrentListStore';
 import ListControl from '../List/ListControl';
 
 import { DropTarget, DragSource } from 'react-dnd';
+var _ = require('underscore');
 
 const ItemsRow = React.createClass({
 	propTypes: {
@@ -21,8 +22,6 @@ const ItemsRow = React.createClass({
 		connectDragPreview: React.PropTypes.func, // eslint-disable-line react/sort-prop-types
 	},
 	renderRow (item) {
-		console.log('ItemsTableRow.js');
-		console.log(item);
 		const itemId = item.id;
 		const rowClassname = classnames({
 			'ItemList__row--dragging': this.props.isDragging,
@@ -51,8 +50,14 @@ const ItemsRow = React.createClass({
 				<ListControl key="_delete" onClick={(e) => this.props.deleteTableItem(item, e)} type="delete" />
 			));
 		}
-
-		var addRow = (<tr id={item.id} key={'i' + item.id} onClick={this.props.manageMode ? (e) => this.props.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>);
+		
+		var admin_ui_row_data = {};
+		_.each(item.admin_ui_row_data, function(value, key) {
+			key = 'data-' + key;
+			admin_ui_row_data[key] = value;
+		});
+		
+		var addRow = (<tr id={item.id} {...admin_ui_row_data} key={'i' + item.id} onClick={this.props.manageMode ? (e) => this.props.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>);
 
 		if (this.props.list.sortable) {
 			return (
