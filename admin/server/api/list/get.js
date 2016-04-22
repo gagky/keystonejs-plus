@@ -46,6 +46,7 @@ module.exports = function (req, res) {
 			return res.apiError('database error', err);
 		}
 		return res.json({
+			// results: items.map(function (item, index) {
 			results: items.map(function (item) {
 				return req.list.getData(item, req.query.select, req.query.expandRelationshipFields);
 			}),

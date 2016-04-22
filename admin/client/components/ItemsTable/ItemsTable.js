@@ -66,9 +66,10 @@ const ItemsTable = React.createClass({
 				'th-sort--asc': isSelected && !isInverted,
 				'th-sort--desc': isInverted,
 			});
+			const thClassName = classnames(col.path);
 
 			return (
-				<th key={col.path} colSpan="1">
+				<th key={col.path} colSpan="1" className={thClassName}>
 					<button
 						className={colClassName}
 						onClick={() => {
