@@ -8,6 +8,7 @@ import { plural } from '../utils';
 import Footer from '../components/Footer';
 import MobileNavigation from '../components/Navigation/MobileNavigation';
 import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
+import FlashMessages from '../components/FlashMessages';
 
 var listsByKey = {};
 Keystone.lists.forEach((list) => {
@@ -158,6 +159,8 @@ var HomeView = React.createClass({
 						/>
 				</header>
 				<div className="keystone-body">
+					<FlashMessages
+						messages={this.props.messages} />
 					<Container>
 						<div className="dashboard-header">
 							<div className="dashboard-heading">{this.props.brand}</div>
@@ -184,6 +187,7 @@ ReactDOM.render(
 		appversion={Keystone.appversion}
 		backUrl={Keystone.backUrl}
 		brand={Keystone.brand}
+		messages={Keystone.messages}
 		nav={Keystone.nav}
 		navIsFlat={Keystone.nav.flat}
 		navLists={Keystone.lists}

@@ -68,7 +68,9 @@ module.exports = function (req, res) {
 					relationships: relationships,
 					showRelationships: showRelationships,
 					admin_css: keystone.get('admin css') ? keystone.get('admin css')(req) : null,
-					admin_js: keystone.get('admin js') ? keystone.get('admin js')(req) : null
+					admin_js: keystone.get('admin js') ? keystone.get('admin js')(req) : null,
+					allowWrite: !!(!keystone.get('admin access control') || req.user[req.list.options.allowWrite]),
+					allowRead: !!(!keystone.get('admin access control') || req.user[req.list.options.allowRead])
 				});
 
 			});
