@@ -90,7 +90,8 @@ var ItemView = React.createClass({
 							messages={this.props.messages} />
 						<EditForm
 							list={this.props.list}
-							data={this.state.itemData} />
+							data={this.state.itemData}
+							allowWrite={this.props.allowWrite}/>
 						{this.renderRelationships()}
 					</Container>
 				</div>
@@ -119,6 +120,7 @@ ReactDOM.render(
 		User={Keystone.User}
 		user={Keystone.user}
 		version={Keystone.version}
+		allowWrite={Keystone.allowWrite}
 	/>,
 	document.getElementById('item-view')
 );

@@ -194,13 +194,14 @@ var EditForm = React.createClass({
 		}, this);
 	},
 	renderFooterBar () {
-		var buttons = [
-			<Button key="save" type="primary" submit>Save</Button>,
-		];
-		console.log(this)
-		console.log(this)
+		var buttons = [];
+		if (this.props.allowWrite) {
+			buttons.push(
+				<Button key="save" type="primary" submit>Save</Button>
+			);
+		}
+		// TODO: use list.uiOptions.item.buttons to render
 		if (this.props.data.fields.__footers){
-			console.log( typeof this.props.data.fields.__footers);
 			var style = {
 				marginLeft: 10
 			}
@@ -219,7 +220,7 @@ var EditForm = React.createClass({
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
-		if (!this.props.list.nodelete) {
+		if (!this.props.list.nodelete && this.props.allowWrite) {
 			buttons.push(
 				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
