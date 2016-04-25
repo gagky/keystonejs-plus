@@ -195,7 +195,7 @@ var EditForm = React.createClass({
 	},
 	renderFooterBar () {
 		var buttons = [];
-		if (this.props.allowWrite) {
+		if (this.props.allowSaveItem) {
 			buttons.push(
 				<Button key="save" type="primary" submit>Save</Button>
 			);
@@ -220,7 +220,7 @@ var EditForm = React.createClass({
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
-		if (!this.props.list.nodelete && this.props.allowWrite) {
+		if (!this.props.list.nodelete && this.props.allowDeleteItem) {
 			buttons.push(
 				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />

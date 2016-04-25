@@ -68,21 +68,22 @@ module.exports = function createDynamicRouter (keystone) {
 
 	// Init req with list
 	var initList = require('../middleware/initList')(keystone);
+	var accessControl = require('../middleware/accessControl')(keystone);
 	// lists
 	router.all('/api/counts', require('../api/counts'));
-	router.get('/api/:list', initList(), require('../api/list/get'));
-	router.get('/api/:list/:format(export.csv|export.json)', initList(), require('../api/list/download'));
-	router.post('/api/:list/create', initList(), require('../api/list/create'));
-	router.post('/api/:list/update', initList(), require('../api/list/update'));
-	router.post('/api/:list/delete', initList(), require('../api/list/delete'));
+	router.get('/api/:list', initList(), accessControl('accessList'), require('../api/list/get'));
+	router.get('/api/:list/:format(export.csv|export.json)', accessControl('accessList'), initList(), require('../api/list/download'));
+	router.post('/api/:list/create', initList(), accessControl('createItem'), require('../api/list/create'));
+	router.post('/api/:list/update', initList(), accessControl('saveItem'), require('../api/list/update'));
+	router.post('/api/:list/delete', initList(), accessControl('deleteItem'), require('../api/list/delete'));
 	// items
-	router.get('/api/:list/:id', initList(), require('../api/item/get'));
-	router.post('/api/:list/:id', initList(), require('../api/item/update'));
-	router.post('/api/:list/:id/delete', initList(), require('../api/list/delete'));
+	router.get('/api/:list/:id', initList(), accessControl('accessItem'), require('../api/item/get'));
+	router.post('/api/:list/:id', initList(), accessControl('saveItem'), require('../api/item/update'));
+	router.post('/api/:list/:id/delete', initList(), accessControl('deleteItem'), require('../api/list/delete'));
 	router.post('/api/:list/:id/sortOrder/:sortOrder/:newOrder', initList(), require('../api/item/sortOrder'));
 	// #6: List Routes
-	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/list'));
-	router.all('/:list/:item', initList(true), require('../routes/item'));
+	router.all('/:list/:page([0-9]{1,5})?', initList(true), accessControl('accessList'), require('../routes/list'));
+	router.all('/:list/:item', initList(true), accessControl('accessItem'), require('../routes/item'));
 
 	// TODO: catch 404s and errors with Admin-UI specific handlers
 

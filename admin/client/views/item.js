@@ -91,7 +91,8 @@ var ItemView = React.createClass({
 						<EditForm
 							list={this.props.list}
 							data={this.state.itemData}
-							allowWrite={this.props.allowWrite}/>
+							allowDeleteItem={this.props.allowDeleteItem}
+							allowSaveItem={this.props.allowSaveItem}/>
 						{this.renderRelationships()}
 					</Container>
 				</div>
@@ -109,6 +110,8 @@ var ItemView = React.createClass({
 
 ReactDOM.render(
 	<ItemView
+		allowDeleteItem={Keystone.allowDeleteItem}
+		allowSaveItem={Keystone.allowSaveItem}
 		appversion={Keystone.appversion}
 		backUrl={Keystone.backUrl}
 		brand={Keystone.brand}
@@ -120,7 +123,6 @@ ReactDOM.render(
 		User={Keystone.User}
 		user={Keystone.user}
 		version={Keystone.version}
-		allowWrite={Keystone.allowWrite}
 	/>,
 	document.getElementById('item-view')
 );

@@ -69,8 +69,10 @@ module.exports = function (req, res) {
 					showRelationships: showRelationships,
 					admin_css: keystone.get('admin css') ? keystone.get('admin css')(req) : null,
 					admin_js: keystone.get('admin js') ? keystone.get('admin js')(req) : null,
-					allowWrite: !!(!keystone.get('admin access control') || req.user[req.list.options.allowWrite]),
-					allowRead: !!(!keystone.get('admin access control') || req.user[req.list.options.allowRead])
+					allowAccessList: keystone.accessControl(req.list, 'accessList', req.user),
+					allowAccessItem: keystone.accessControl(req.list, 'accessItem', req.user),
+					allowSaveItem: keystone.accessControl(req.list, 'saveItem', req.user),
+					allowDeleteItem: keystone.accessControl(req.list, 'deleteItem', req.user),
 				});
 
 			});

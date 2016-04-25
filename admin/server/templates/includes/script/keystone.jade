@@ -1,6 +1,10 @@
 script.
 	var Keystone = {};
 	Keystone.adminPath = !{JSON.stringify(adminPath)};
+	Keystone.allowAccessItem = #{!!allowAccessItem};
+	Keystone.allowAccessList = #{!!allowAccessList};
+	Keystone.allowDeleteItem = #{!!allowDeleteItem};
+	Keystone.allowSaveItem = #{!!allowSaveItem};
 	Keystone.backUrl = !{JSON.stringify(backUrl)};
 	Keystone.user = !{JSON.stringify(user)};
 	Keystone.version = !{JSON.stringify(version)};
@@ -19,4 +23,3 @@ script.
 	Keystone.csrf.key = "#{csrf_token_key}";
 	Keystone.csrf.value = "#{csrf_token_value}";
 	Keystone.csrf.query = "!{csrf_query}";
-	Keystone.allowWrite = #{!!allowWrite};
