@@ -71,8 +71,8 @@ module.exports = function (req, res) {
 					admin_js: keystone.get('admin js') ? keystone.get('admin js')(req) : null,
 					allowAccessList: keystone.accessControl(req.list, 'accessList', req.user),
 					allowAccessItem: keystone.accessControl(req.list, 'accessItem', req.user),
-					allowSaveItem: keystone.accessControl(req.list, 'saveItem', req.user),
-					allowDeleteItem: keystone.accessControl(req.list, 'deleteItem', req.user),
+					allowSaveItem: keystone.accessControl(req.list, 'itemSave', req.user),
+					allowDeleteItem: keystone.accessControl(req.list, 'itemDelete', req.user),
 				});
 
 			});
