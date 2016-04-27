@@ -67,12 +67,13 @@ module.exports = function (req, res) {
 					item: item,
 					relationships: relationships,
 					showRelationships: showRelationships,
-					admin_css: keystone.get('admin css') ? keystone.get('admin css')(req) : null,
-					admin_js: keystone.get('admin js') ? keystone.get('admin js')(req) : null,
+					admin_css: req.list.options.ui_options && req.list.options.ui_options.item ? req.list.options.ui_options.item.css : null ,
+					admin_js: req.list.options.ui_options && req.list.options.ui_options.item ? req.list.options.ui_options.item.js : null ,
 					allowAccessList: keystone.accessControl(req.list, 'accessList', req.user),
 					allowAccessItem: keystone.accessControl(req.list, 'accessItem', req.user),
-					allowSaveItem: keystone.accessControl(req.list, 'itemSave', req.user),
+					allowCreateItem: keystone.accessControl(req.list, 'itemCreate', req.user),
 					allowDeleteItem: keystone.accessControl(req.list, 'itemDelete', req.user),
+					allowSaveItem: keystone.accessControl(req.list, 'itemSave', req.user),
 				});
 
 			});

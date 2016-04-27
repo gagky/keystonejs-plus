@@ -43,7 +43,7 @@ const ItemsRow = React.createClass({
 		}
 
 		// add delete/check icon when applicable
-		if (!this.props.list.nodelete) {
+		if (!this.props.list.nodelete && this.props.allowDeleteItem) {
 			cells.unshift(this.props.manageMode ? (
 				<ListControl key="_check" type="check" active={this.props.checkedItems[itemId]} />
 			) : (

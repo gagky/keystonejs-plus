@@ -77,6 +77,7 @@ var ItemView = React.createClass({
 				</header>
 				<div className="keystone-body">
 					<EditFormHeader
+						allowCreateItem={this.props.allowCreateItem}
 						list={this.props.list}
 						data={this.state.itemData}
 						drilldown={this.state.itemDrilldown}
@@ -89,10 +90,10 @@ var ItemView = React.createClass({
 						<FlashMessages
 							messages={this.props.messages} />
 						<EditForm
-							list={this.props.list}
-							data={this.state.itemData}
 							allowDeleteItem={this.props.allowDeleteItem}
-							allowSaveItem={this.props.allowSaveItem}/>
+							allowSaveItem={this.props.allowSaveItem}
+							list={this.props.list}
+							data={this.state.itemData}/>
 						{this.renderRelationships()}
 					</Container>
 				</div>
@@ -110,6 +111,7 @@ var ItemView = React.createClass({
 
 ReactDOM.render(
 	<ItemView
+		allowCreateItem={Keystone.allowCreateItem}
 		allowDeleteItem={Keystone.allowDeleteItem}
 		allowSaveItem={Keystone.allowSaveItem}
 		appversion={Keystone.appversion}

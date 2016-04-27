@@ -24,7 +24,7 @@ const ItemsTable = React.createClass({
 		));
 
 		// add delete col when available
-		if (!this.props.list.nodelete) {
+		if (!this.props.list.nodelete && this.props.allowDeleteItem) {
 			cols.unshift(
 				<col width={TABLE_CONTROL_COLUMN_WIDTH} key="delete" />
 			);
@@ -47,7 +47,7 @@ const ItemsTable = React.createClass({
 		let listControlCount = 0;
 
 		if (this.props.list.sortable) listControlCount++;
-		if (!this.props.list.nodelete) listControlCount++;
+		if (!this.props.list.nodelete && this.props.allowDeleteItem) listControlCount++;
 
 		// set active sort
 		const activeSortPath = CurrentListStore.getActiveSort().paths[0];

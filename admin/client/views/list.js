@@ -146,7 +146,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderCreateButton () {
-		if (this.state.list.nocreate) return null;
+		if (this.state.list.nocreate || !this.props.allowCreateItem) return null;
 		var props = { type: 'success' };
 		if (this.state.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
@@ -387,7 +387,7 @@ const ListView = React.createClass({
 	},
 	renderBlankStateCreateButton () {
 		var props = { type: 'success' };
-		if (this.state.list.nocreate) return null;
+		if (this.state.list.nocreate || !this.props.allowCreateItem) return null;
 		if (this.state.list.autocreate) {
 			props.href = '?new' + this.props.csrfQuery;
 		} else {
@@ -431,6 +431,7 @@ const ListView = React.createClass({
 				<Container style={containerStyle}>
 					<FlashMessages messages={this.props.messages} />
 					<ItemsTable
+						allowDeleteItem={this.props.allowDeleteItem}
 						checkedItems={this.state.checkedItems}
 						checkTableItem={this.checkTableItem}
 						columns={this.state.columns}
@@ -512,6 +513,8 @@ const ListView = React.createClass({
 
 ReactDOM.render(
 	<ListView
+		allowCreateItem={Keystone.allowCreateItem}
+		allowDeleteItem={Keystone.allowDeleteItem}
 		appversion={Keystone.appversion}
 		backUrl={Keystone.backUrl}
 		brand={Keystone.brand}
