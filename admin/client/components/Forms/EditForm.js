@@ -8,6 +8,7 @@ import AltText from './AltText';
 import FooterBar from '../FooterBar';
 import InvalidFieldType from './InvalidFieldType';
 import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
+var _ = require('underscore.string');
 
 function upCase (str) {
 	return str.slice(0, 1).toUpperCase() + str.substr(1).toLowerCase();
@@ -201,6 +202,21 @@ var EditForm = React.createClass({
 			);
 		}
 		// TODO: use list.uiOptions.item.buttons to render
+		if (this.props.list.uiOptions && this.props.list.uiOptions.item && this.props.list.uiOptions.item.buttons){
+			var style = {
+				marginLeft: 10
+			}
+			var fields = this.props.data.fields;
+			this.props.list.uiOptions.item.buttons.forEach(function(button, index, footers){
+				button.text = _.sprintf(button.text, fields);
+				button.href = _.sprintf(button.href, fields);
+				buttons.push(
+					<Button key={button.key} type={button.type} href={button.href} style={style}>
+						<ResponsiveText hiddenXS={button.text} visibleXS={button.href} />
+					</Button>
+				);
+			});
+		}
 		if (this.props.data.fields.__footers){
 			var style = {
 				marginLeft: 10
