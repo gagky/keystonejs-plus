@@ -18,7 +18,7 @@ import MobileNavigation from '../components/Navigation/MobileNavigation';
 import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
 import SecondaryNavigation from '../components/Navigation/SecondaryNavigation';
 import UpdateForm from '../components/Forms/UpdateForm';
-import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
+import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner, ResponsiveText } from 'elemental';
 import { plural } from '../utils';
 
 const ListView = React.createClass({
@@ -168,9 +168,23 @@ const ListView = React.createClass({
 		);
 	},
 	renderListButton () {
-		var props = { type: 'success' };
+		var buttons = [];
+		if (this.state.list.uiOptions && this.state.list.uiOptions.list && this.state.list.uiOptions.list.buttons){
+			var style = {
+				marginLeft: 10
+			}
+			this.state.list.uiOptions.list.buttons.forEach(function(button, index, footers){
+				button.textXS = button.textXS || button.text;
+				buttons.push(
+					<Button key={button.key} type={button.type} href={button.href} style={style}>
+						<ResponsiveText hiddenXS={button.text} visibleXS={button.textXS} />
+					</Button>
+				);
+			});
+		}
 		return (
 			<InputGroup.Section className="ListHeader__list">
+			{buttons}
 			</InputGroup.Section>
 		);
 	},

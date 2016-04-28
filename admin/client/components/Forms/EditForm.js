@@ -210,9 +210,10 @@ var EditForm = React.createClass({
 			this.props.list.uiOptions.item.buttons.forEach(function(button, index, footers){
 				button.text = _.sprintf(button.text, fields);
 				button.href = _.sprintf(button.href, fields);
+				button.textXS = button.textXS || button.text;
 				buttons.push(
 					<Button key={button.key} type={button.type} href={button.href} style={style}>
-						<ResponsiveText hiddenXS={button.text} visibleXS={button.href} />
+						<ResponsiveText hiddenXS={button.text} visibleXS={button.textXS} />
 					</Button>
 				);
 			});
