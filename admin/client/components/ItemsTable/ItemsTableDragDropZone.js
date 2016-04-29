@@ -34,7 +34,7 @@ var ItemsTableDragDropZone = React.createClass({
 
 		let cols = this.props.columns.length;
 		if (this.props.list.sortable) cols++;
-		if (!this.props.list.nodelete) cols++;
+		if (!this.props.list.nodelete && this.props.allowDeleteItem) cols++;
 		return (
 			<tr style={style}>
 				<td colSpan={cols} >

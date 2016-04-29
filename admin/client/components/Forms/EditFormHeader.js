@@ -106,7 +106,7 @@ var Header = React.createClass({
 		);
 	},
 	renderCreateButton () {
-		if (this.props.list.nocreate) return null;
+		if (this.props.list.nocreate || !this.props.allowCreateItem) return null;
 
 		var props = {};
 		if (this.props.list.autocreate) {
