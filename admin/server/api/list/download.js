@@ -27,7 +27,7 @@ module.exports = function (req, res) {
 		});
 	}
 	var sort = req.list.expandSort(req.query.sort);
-	query.sort(sort.string);
+	//query.sort(sort.string);
 	query.exec(function (err, results) {
 		var data;
 		if (err) return res.apiError('database error', err);
