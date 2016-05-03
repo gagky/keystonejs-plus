@@ -212,7 +212,7 @@ var EditForm = React.createClass({
 				button.href = _.sprintf(button.href, fields);
 				button.textXS = button.textXS || button.text;
 				buttons.push(
-					<Button key={button.key} type={button.type} href={button.href} style={style}>
+					<Button key={button.key} type={button.type} href={button.href} style={style} className={`uiOptions-btn uiOptions-btn-${button.id} u-float-right`}>
 						<ResponsiveText hiddenXS={button.text} visibleXS={button.textXS} />
 					</Button>
 				);
@@ -239,7 +239,8 @@ var EditForm = React.createClass({
 		);
 		if (!this.props.list.nodelete && this.props.allowDeleteItem) {
 			buttons.push(
-				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
+				// <Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
+				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
 				</Button>
 			);
