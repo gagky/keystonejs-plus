@@ -71,8 +71,8 @@ module.exports = function createDynamicRouter (keystone) {
 	var accessControl = require('../middleware/accessControl')(keystone);
 	// lists
 	router.all('/api/counts', require('../api/counts'));
-	router.get('/api/:list', initList(), accessControl('accessList'), require('../api/list/get'));
-	router.get('/api/:list/:format(export.csv|export.json)', accessControl('accessList'), initList(), require('../api/list/download'));
+	router.get('/api/:list', initList(), require('../api/list/get'));
+	router.get('/api/:list/:format(export.csv|export.json)', initList(), require('../api/list/download'));
 	router.post('/api/:list/create', initList(), accessControl('itemCreate'), require('../api/list/create'));
 	router.post('/api/:list/update', initList(), accessControl('itemSave'), require('../api/list/update'));
 	router.post('/api/:list/delete', initList(), accessControl('itemDelete'), require('../api/list/delete'));
