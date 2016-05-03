@@ -1,3 +1,4 @@
+var knox = require('knox');
 var keystone = require('../../../');
 var Types = keystone.Field.Types;
 
