@@ -65,7 +65,7 @@ module.exports = function createDynamicRouter (keystone) {
 	// Init API request helpers
 	router.use('/api', require('../middleware/apiError'));
 	router.use('/api', require('../middleware/logError'));
-
+ 
 	// Init req with list
 	var initList = require('../middleware/initList')(keystone);
 	var accessControl = require('../middleware/accessControl')(keystone);
@@ -77,7 +77,7 @@ module.exports = function createDynamicRouter (keystone) {
 	router.post('/api/:list/update', initList(), accessControl('itemSave'), require('../api/list/update'));
 	router.post('/api/:list/delete', initList(), accessControl('itemDelete'), require('../api/list/delete'));
 	// items
-	router.get('/api/:list/:id', initList(), accessControl('accessItem'), require('../api/item/get'));
+	router.get('/api/:list/:id', initList(), require('../api/item/get'));
 	router.post('/api/:list/:id', initList(), accessControl('itemSave'), require('../api/item/update'));
 	router.post('/api/:list/:id/delete', initList(), accessControl('itemDelete'), require('../api/list/delete'));
 	router.post('/api/:list/:id/sortOrder/:sortOrder/:newOrder', initList(), require('../api/item/sortOrder'));
