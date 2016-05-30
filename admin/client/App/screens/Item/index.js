@@ -153,6 +153,7 @@ module.exports = connect((state) => {
 	return {
 		allowCreateItem: checkAllow(acl, 'itemCreate', Keystone.role),
 		allowDeleteItem: checkAllow(acl, 'itemDelete', Keystone.role),
+		allowSaveItem: checkAllow(acl, 'itemSave', Keystone.role),
 		data: state.item.data,
 		loading: state.item.loading,
 		ready: state.item.ready,
