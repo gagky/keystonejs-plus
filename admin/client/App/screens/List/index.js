@@ -257,12 +257,16 @@ const ListView = React.createClass({
 				marginLeft: 10
 			}
 			this.props.currentList.uiOptions.list.buttons.forEach(function(button, index, footers){
-				button.textXS = button.textXS || button.text;
-				buttons.push(
-					<Button key={button.key} type={button.type} href={button.href} style={style}>
-						<ResponsiveText hiddenXS={button.text} visibleXS={button.textXS} />
-					</Button>
-				);
+				if (checkAllow(button.acl, null, Keystone.role)){
+					button.textXS = button.textXS || button.text;
+					var octicon_cls = button.octicon ? 'octicon octicon-' + button.octicon : null;
+					buttons.push(
+						<Button key={button.key} type={button.type} href={button.href} style={style}>
+							<span className={octicon_cls} />
+							<ResponsiveText hiddenXS={button.text} visibleXS={button.textXS} />
+						</Button>
+					);
+				}
 			});
 		}
 		return (

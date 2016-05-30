@@ -6,6 +6,7 @@
 import React from 'react';
 import { Container } from 'elemental';
 import PrimaryNavItem from './NavItem';
+import { checkAllow } from '../../../../utils/acl';
 
 var PrimaryNavigation = React.createClass({
 	displayName: 'PrimaryNavigation',
@@ -31,6 +32,30 @@ var PrimaryNavigation = React.createClass({
 			navIsVisible: window.innerWidth >= 768,
 		});
 	},
+	// Render the nav button
+	renderNavButtons () {
+		if (!Keystone.uiOptions || !Keystone.uiOptions.nav || !Keystone.uiOptions.nav.buttons) return null;
+		
+		var buttons = [];
+		
+		Keystone.uiOptions.nav.buttons.forEach(function(button){
+			if (checkAllow(button.acl, null, Keystone.role)){
+				var octicon_cls = 'octicon octicon-' + (button.octicon || 'question');
+				if (button.type)
+					octicon_cls += ' Button Button--' + button.type;
+				buttons.push(
+					<PrimaryNavItem
+						label={button.id}
+						href={button.href}
+						title={button.text}
+					>
+						<span className={octicon_cls} />
+					</PrimaryNavItem>
+				);
+			}
+		})
+		return buttons;
+	},
 	// Render the sign out button
 	renderSignout () {
 		if (!this.props.signoutUrl) return null;
@@ -49,6 +74,7 @@ var PrimaryNavigation = React.createClass({
 	renderFrontLink () {
 		return (
 			<ul className="app-nav app-nav--primary app-nav--right">
+				{this.renderNavButtons()}
 				<PrimaryNavItem
 					label="octicon-globe"
 					href={Keystone.backUrl}

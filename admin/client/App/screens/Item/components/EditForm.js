@@ -25,6 +25,7 @@ var _ = require('underscore.string');
 import { deleteItem } from '../actions';
 
 import { upcase } from '../../../../utils/string';
+import { checkAllow } from '../../../../utils/acl';
 
 function getNameFromData (data) {
 	if (typeof data === 'object') {
@@ -278,14 +279,21 @@ var EditForm = React.createClass({
 			}
 			var fields = this.props.data.fields;
 			this.props.list.uiOptions.item.buttons.forEach(function(button, index, footers){
-				button.text = _.sprintf(button.text, fields);
-				button.href = _.sprintf(button.href, fields);
-				button.textXS = button.textXS || button.text;
-				buttons.push(
-					<Button key={button.key} type={button.type} href={button.href} style={style} className={`uiOptions-btn uiOptions-btn-${button.id} u-float-right`}>
+				if (checkAllow(button.acl, null, Keystone.role)){
+					var octicon_cls = button.octicon ? 'octicon octicon-' + button.octicon : null;
+					button.text = _.sprintf(button.text, fields);
+					button.href = _.sprintf(button.href, fields);
+					button.textXS = button.textXS || button.text;
+					var label = button.text ? (
 						<ResponsiveText hiddenXS={button.text} visibleXS={button.textXS} />
-					</Button>
-				);
+					) : null;
+					buttons.push(
+						<Button key={button.key} type={button.type} href={button.href} style={style} className={`uiOptions-btn uiOptions-btn-${button.id} u-float-right`}>
+							<span className={octicon_cls} />
+							{label}
+						</Button>
+					);
+				}
 			});
 		}
 		if (this.props.data.fields.__footers){
