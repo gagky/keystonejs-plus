@@ -25,7 +25,7 @@ import UpdateForm from '../components/Forms/UpdateForm';
 import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner, ResponsiveText } from 'elemental';
 import { plural } from '../utils';
 */
-import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
+import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner, ResponsiveText } from 'elemental';
 import { connect } from 'react-redux';
 
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
@@ -40,6 +40,7 @@ import ListSort from './components/ListSort';
 import UpdateForm from './components/UpdateForm';
 import { plural } from '../../../utils/string';
 import { listsByPath } from '../../../utils/lists';
+import { checkAllow } from '../../../utils/acl';
 
 import {
 	deleteItems,
@@ -240,7 +241,7 @@ const ListView = React.createClass({
 				<Button {...props} title={'Create ' + this.props.currentList.singular} id='createBtn'>
 					<span className="ListHeader__create__icon octicon octicon-plus" />
 					<span className="ListHeader__create__label">
-						{this.state.list.singular}
+						{this.props.currentList.singular}
 					</span>
 					<span className="ListHeader__create__label--lg">
 						Create {this.props.currentList.singular}
@@ -251,11 +252,11 @@ const ListView = React.createClass({
 	},
 	renderListButton () {
 		var buttons = [];
-		if (this.state.list.uiOptions && this.state.list.uiOptions.list && this.state.list.uiOptions.list.buttons){
+		if (this.props.currentList.uiOptions && this.props.currentList.uiOptions.list && this.props.currentList.uiOptions.list.buttons){
 			var style = {
 				marginLeft: 10
 			}
-			this.state.list.uiOptions.list.buttons.forEach(function(button, index, footers){
+			this.props.currentList.uiOptions.list.buttons.forEach(function(button, index, footers){
 				button.textXS = button.textXS || button.text;
 				buttons.push(
 					<Button key={button.key} type={button.type} href={button.href} style={style}>
@@ -683,7 +684,10 @@ ReactDOM.render(
 );
 */
 module.exports = connect((state) => {
+	var acl = state.lists.currentList ? state.lists.currentList.acl : null;
 	return {
+		allowCreateItem: checkAllow(acl, 'itemCreate', Keystone.role),
+		allowDeleteItem: checkAllow(acl, 'itemDelete', Keystone.role),
 		lists: state.lists,
 		loading: state.lists.loading,
 		error: state.lists.error,

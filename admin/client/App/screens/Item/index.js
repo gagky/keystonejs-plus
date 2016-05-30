@@ -15,6 +15,7 @@ import EditForm from './components/EditForm';
 import EditFormHeader from './components/EditFormHeader';
 import RelatedItemsList from './components/RelatedItemsList';
 import FlashMessages from '../../shared/FlashMessages';
+import { checkAllow } from '../../../utils/acl';
 
 import {
 	selectItem,
@@ -119,6 +120,7 @@ var ItemView = React.createClass({
 					<div>
 						<Container>
 							<EditFormHeader
+								allowCreateItem={this.props.allowCreateItem}
 								list={this.props.currentList}
 								data={this.props.data}
 								toggleCreate={this.toggleCreate}
@@ -130,6 +132,8 @@ var ItemView = React.createClass({
 								onCreate={(item) => this.onCreate(item)}
 							/>
 							<EditForm
+								allowDeleteItem={this.props.allowDeleteItem}
+								allowSaveItem={this.props.allowSaveItem}
 								list={this.props.currentList}
 								data={this.props.data}
 								dispatch={this.props.dispatch}
@@ -144,10 +148,15 @@ var ItemView = React.createClass({
 	},
 });
 
-module.exports = connect((state) => ({
-	data: state.item.data,
-	loading: state.item.loading,
-	ready: state.item.ready,
-	error: state.item.error,
-	currentList: state.lists.currentList,
-}))(ItemView);
+module.exports = connect((state) => {
+	var acl = state.lists.currentList ? state.lists.currentList.acl : null;
+	return {
+		allowCreateItem: checkAllow(acl, 'itemCreate', Keystone.role),
+		allowDeleteItem: checkAllow(acl, 'itemDelete', Keystone.role),
+		data: state.item.data,
+		loading: state.item.loading,
+		ready: state.item.ready,
+		error: state.item.error,
+		currentList: state.lists.currentList,
+	};
+})(ItemView);
