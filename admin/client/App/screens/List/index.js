@@ -640,6 +640,12 @@ const ListView = React.createClass({
 		}
 		return (
 			<div data-screen-id="list">
+				{(this.props.currentList.uiOptions && this.props.currentList.uiOptions.list && this.props.currentList.uiOptions.list.css) ? (
+					<link
+						rel="stylesheet"
+						href={this.props.currentList.uiOptions.list.css}
+					/>
+				) : null}
 				{this.renderBlankState()}
 				{this.renderActiveState()}
 				<CreateForm

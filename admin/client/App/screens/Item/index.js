@@ -105,9 +105,17 @@ var ItemView = React.createClass({
 				</div>
 			);
 		}
+		
+		console.log(this.props.currentList)
 		// When we have the data, render the item view with it
 		return (
 			<div data-screen-id="item">
+				{(this.props.currentList.uiOptions && this.props.currentList.uiOptions.item && this.props.currentList.uiOptions.item.css) ? (
+					<link
+						rel="stylesheet"
+						href={this.props.currentList.uiOptions.item.css}
+					/>
+				) : null}
 				{(this.props.error) ? (
 					<FlashMessages
 						messages={{
