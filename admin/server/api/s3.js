@@ -72,6 +72,13 @@ module.exports = {
 							return res.send({ error: { message: 'Amazon returned Http Code: ' + s3Response.statusCode } });
 						} else {
 							return res.send({ image: { url: '//' + s3Config.bucket + '.s3.amazonaws.com/' + file.name } });
+							/*
+							var region = 's3';
+							if (s3Config.region && s3Config.region !== 'us-east-1') {
+								region = 's3-' + s3Config.region;
+							}
+							return res.send({ image: { url: 'https://' + region + '.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
+							*/
 						}
 					}
 				};
