@@ -6,8 +6,6 @@ html
 		meta(name="csrf-token", content="#{csrf_token_value}")
 		title= title
 		link(rel="stylesheet", href="#{adminPath}/styles/keystone.min.css")
-		if (admin_css)
-			link(rel="stylesheet", href="#{admin_css}")
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
 	body
@@ -19,6 +17,4 @@ html
 			Keystone.orphanedLists = !{JSON.stringify(orphanedLists.map(getListMeta))};
 		script(src="#{adminPath}/js/packages.js")
 		script(src="#{adminPath}/js/home.js")
-		if (admin_js)
-			script(src="#{admin_js}")
 		include includes/script/ga

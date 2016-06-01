@@ -653,6 +653,11 @@ const ListView = React.createClass({
 						href={this.props.currentList.uiOptions.list.css}
 					/>
 				) : null}
+				{(this.props.currentList.uiOptions && this.props.currentList.uiOptions.list && this.props.currentList.uiOptions.list.js) ? (
+					<script
+						src={this.props.currentList.uiOptions.list.js}
+					/>
+				) : null}
 				{this.renderBlankState()}
 				{this.renderActiveState()}
 				<CreateForm

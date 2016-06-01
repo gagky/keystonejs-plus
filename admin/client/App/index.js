@@ -21,8 +21,20 @@ const App = (props) => {
 	}
 	// Default current section key to dashboard
 	const currentSectionKey = (currentSection && currentSection.key) || 'dashboard';
+		//if (!Keystone.uiOptions || !Keystone.uiOptions.nav || !Keystone.uiOptions.nav.buttons) return null;
 	return (
 		<div className="keystone-wrapper">
+			{(Keystone.uiOptions && Keystone.uiOptions.css) ? (
+				<link
+					rel="stylesheet"
+					href={Keystone.uiOptions.css}
+				/>
+			) : null}
+			{(Keystone.uiOptions && Keystone.uiOptions.js) ? (
+				<script
+					src={Keystone.uiOptions.js}
+				/>
+			) : null}
 			<header className="keystone-header">
 				<MobileNavigation
 					brand={Keystone.brand}

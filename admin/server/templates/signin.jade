@@ -5,8 +5,6 @@ html
 		meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
 		title Sign in to #{brand ? brand : 'Keystone'}
 		link(rel="stylesheet", href="#{adminPath}/styles/keystone.min.css")
-		if (admin_css)
-			link(rel="stylesheet", href="#{admin_css}")
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 	body
 		#signin-view
@@ -23,8 +21,6 @@ html
 				userCanAccessKeystone: !{user && user.canAccessKeystone ? 'true' : 'false'},
 			};
 		script(src='#{adminPath}/js/signin.js')
-		if (admin_js)
-			script(src="#{admin_js}")
 		//- Google Analytics
 		if env == 'production' && ga.property && ga.domain
 			script.

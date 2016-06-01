@@ -9,8 +9,6 @@ html
 		title= title
 		include includes/css/components
 		link(rel="stylesheet", href="#{adminPath}/styles/keystone.min.css")
-		if (admin_css)
-			link(rel="stylesheet", href="#{admin_css}")
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
 	body
@@ -33,6 +31,4 @@ html
 		script(src="#{adminPath}/js/packages.js")
 		script(src='#{adminPath}/js/fields.js')
 		script(src="#{adminPath}/js/index.js")
-		if (admin_js)
-			script(src="#{admin_js}")
 		include includes/script/ga

@@ -116,6 +116,11 @@ var ItemView = React.createClass({
 						href={this.props.currentList.uiOptions.item.css}
 					/>
 				) : null}
+				{(this.props.currentList.uiOptions && this.props.currentList.uiOptions.item && this.props.currentList.uiOptions.item.js) ? (
+					<script
+						src={this.props.currentList.uiOptions.item.js}
+					/>
+				) : null}
 				{(this.props.error) ? (
 					<FlashMessages
 						messages={{
