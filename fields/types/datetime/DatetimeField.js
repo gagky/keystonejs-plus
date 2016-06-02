@@ -12,10 +12,10 @@ module.exports = Field.create({
 
 	// default input formats
 	dateInputFormat: 'YYYY-MM-DD',
-	timeInputFormat: 'h:mm:ss a',
+	timeInputFormat: 'HHmm',
 
 	// parse formats (duplicated from lib/fieldTypes/datetime.js)
-	parseFormats: ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'],
+	parseFormats: ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m' , , 'YYYY-MM-DD HHmm'],
 
 	getInitialState () {
 		return {
@@ -90,7 +90,7 @@ module.exports = Field.create({
 						<DateInput ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
 					</InputGroup.Section>
 					<InputGroup.Section grow>
-						<FormInput name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" />
+						<FormInput name={this.props.paths.time} value={this.state.timeValue} placeholder="HHMM" onChange={this.timeChanged} autoComplete="off" />
 					</InputGroup.Section>
 					<InputGroup.Section>
 						<Button onClick={this.setNow}>Now</Button>

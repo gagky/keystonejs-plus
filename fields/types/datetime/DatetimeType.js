@@ -6,7 +6,7 @@ var utils = require('keystone-utils');
 var TextType = require('../text/TextType');
 
 // ISO_8601 is needed for the automatically created createdAt and updatedAt fields
-var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', moment.ISO_8601];
+var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', 'YYYY-MM-DD HHmm', moment.ISO_8601];
 /**
  * DateTime FieldType Constructor
  * @extends Field
@@ -98,6 +98,7 @@ datetime.prototype.updateItem = function (item, data, callback) {
 		if (value !== null && value !== '') {
 			console.log("value = " + value);
 			// If the value is not null, empty string or undefined, parse it
+			console.log(this.parseFormatString);
 			var newValue = this.parse(value, this.parseFormatString, true);
 			// If it's valid and not the same as the last value, save it
 			if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
