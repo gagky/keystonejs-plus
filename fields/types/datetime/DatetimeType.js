@@ -48,7 +48,10 @@ datetime.prototype.getInputFromData = function (data) {
 	var timeValue = this.getValueFromData(data, '_time');
 	if (dateValue && timeValue) {
 		return dateValue + ' ' + timeValue;
-	}
+	}else if (dateValue  && dateValue != '')
+		return dateValue;
+	else if(dateValue === '' && timeValue === '')
+		return null;
 	return this.getValueFromData(data);
 };
 
@@ -93,6 +96,7 @@ datetime.prototype.updateItem = function (item, data, callback) {
 	var value = this.getInputFromData(data);
 	if (value !== undefined) {
 		if (value !== null && value !== '') {
+			console.log("value = " + value);
 			// If the value is not null, empty string or undefined, parse it
 			var newValue = this.parse(value, this.parseFormatString, true);
 			// If it's valid and not the same as the last value, save it
@@ -101,6 +105,7 @@ datetime.prototype.updateItem = function (item, data, callback) {
 			}
 		// If it's null or empty string, clear it out
 		} else {
+			console.log("empty day");
 			item.set(this.path, null);
 		}
 	}
