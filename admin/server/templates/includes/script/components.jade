@@ -17,3 +17,7 @@ script(src="#{adminPath}/js/lib/jqueryfileupload/jquery.fileupload.js")
 			signature: "#{cloudinary.signature}",
 		}
 -}
+- if (uiOptions) {
+	script(src="#{uiOptions.js}")
+-}
+

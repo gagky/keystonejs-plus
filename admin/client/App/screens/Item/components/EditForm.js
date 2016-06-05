@@ -120,6 +120,27 @@ var EditForm = React.createClass({
 			confirmationDialog: null,
 		});
 	},
+	confirmSave (event) {
+		var body;
+		if (kpAdmin && 
+			kpAdmin.item && 
+			kpAdmin.item.saveConfirmation && 
+			(body = kpAdmin.item.saveConfirmation(new FormData(this.refs.editForm), this.props.list, this.props.data)) != null){
+			const confirmationDialog = (
+				<ConfirmationDialog
+					isOpen
+					body={body}
+					confirmationLabel="Save"
+					onCancel={this.removeConfirmationDialog}
+					onConfirmation={this.updateItem}
+				/>
+			);
+			event.preventDefault();
+			this.setState({ confirmationDialog });
+		}else{
+			this.updateItem();
+		}
+	},
 	updateItem () {
 		const { data, list } = this.props;
 		const editForm = this.refs.editForm;
@@ -128,6 +149,7 @@ var EditForm = React.createClass({
 		// Show loading indicator
 		this.setState({
 			loading: true,
+			confirmationDialog: null,
 		});
 
 		list.updateItem(data.id, formData, (err, data) => {
@@ -259,7 +281,7 @@ var EditForm = React.createClass({
 					key="save"
 					type="primary"
 					disabled={this.state.loading}
-					onClick={() => this.updateItem()}
+					onClick={this.confirmSave}
 				>
 					{this.state.loading ? (
 						<span>
@@ -296,39 +318,6 @@ var EditForm = React.createClass({
 				}
 			});
 		}
-		if (this.props.data.fields.__footers){
-			var style = {
-				marginLeft: 10
-			}
-			this.props.data.fields.__footers.forEach(function(__footer, index, footers){
-				var footer = JSON.parse(__footer);
-				console.log(footer);
-				buttons.push(
-					<Button key={footer.key} type={footer.cls} href={footer.href} style={style}>
-						<ResponsiveText hiddenXS={footer.text} visibleXS={footer.href} />
-					</Button>
-				);
-			});
-		}
-/*
-		var buttons = [
-			<Button
-				key="save"
-				type="primary"
-				disabled={this.state.loading}
-				onClick={() => this.updateItem()}
-			>
-				{this.state.loading ? (
-					<span>
-						<Spinner type="inverted" />
-						&nbsp;Saving
-					</span>
-				) : (
-					'Save'
-				)}
-			</Button>,
-		];
-*/
 		buttons.push(
 			<Button key="reset" onClick={this.confirmReset} type="link-cancel">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
