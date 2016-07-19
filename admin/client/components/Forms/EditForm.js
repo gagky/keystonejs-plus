@@ -198,7 +198,7 @@ var EditForm = React.createClass({
 		var buttons = [];
 		if (this.props.allowSaveItem) {
 			buttons.push(
-				<Button key="save" type="primary" submit>Save</Button>
+				<Button key="save" type="primary" submit>Confirm</Button>
 			);
 		}
 		// TODO: use list.uiOptions.item.buttons to render
