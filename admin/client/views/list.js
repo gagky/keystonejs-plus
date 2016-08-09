@@ -203,7 +203,7 @@ const ListView = React.createClass({
 	renderManagement () {
 		// WIP: Management mode currently under development, so the UI is disabled
 		// unless the KEYSTONE_DEV environment variable is set
-		if (!Keystone.devMode) return;
+		// if (!Keystone.devMode) return;
 
 		const { checkedItems, items, list, manageMode, pageSize } = this.state;
 		if (!items.count || (list.nodelete && list.noedit)) return;
@@ -212,11 +212,11 @@ const ListView = React.createClass({
 		const buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
 
 		// action buttons
-		const actionUpdateButton = !list.noedit ? (
+		const actionUpdateButton = /*!list.noedit ? (
 			<InputGroup.Section>
 				<Button onClick={this.toggleUpdateModal} disabled={!checkedItemCount}>Update</Button>
 			</InputGroup.Section>
-		) : null;
+		) :*/ null;
 		const actionDeleteButton = !list.nodelete ? (
 			<InputGroup.Section>
 				<Button onClick={this.massDelete} disabled={!checkedItemCount}>Delete</Button>
